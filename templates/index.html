@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Encryption & Decryption</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        form {
+            margin-top: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 10px;
+            display: inline-block;
+        }
+        input[type="file"] {
+            margin: 10px;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .flash {
+            color: red;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>File Encryption & Decryption Service</h1>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="flash">
+          {{ messages[0] }}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <form action="/encrypt" method="post" enctype="multipart/form-data">
+        <h3>Encrypt a File</h3>
+        <input type="file" name="file" required><br>
+        <button type="submit">Encrypt File</button>
+    </form>
+
+    <form action="/decrypt" method="post" enctype="multipart/form-data">
+        <h3>Decrypt a File</h3>
+        <input type="file" name="file" required><br>
+        <button type="submit">Decrypt File</button>
+    </form>
+</body>
+</html>
