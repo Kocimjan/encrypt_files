@@ -22,6 +22,7 @@ def index():
 
 
 @app.route("/encrypt", methods=["POST"])
+
 def encrypt_file():
     if 'file' not in request.files:
         flash("Файл не найден")
@@ -33,15 +34,21 @@ def encrypt_file():
         return redirect(url_for('index'))
 
     try:
+        encrypted_folder = "encrypted"
+        if not os.path.exists(encrypted_folder):
+            os.makedirs(encrypted_folder)
+
         file_data = file.read()
 
         encrypted_data = cipher.encrypt(file_data)
 
         encrypted_filename = f"encrypted_{file.filename}"
-        with open(encrypted_filename, "wb") as encrypted_file:
+        encrypted_filepath = os.path.join(encrypted_folder, encrypted_filename)
+
+        with open(encrypted_filepath, "wb") as encrypted_file:
             encrypted_file.write(encrypted_data)
 
-        return send_file(encrypted_filename, as_attachment=True, download_name=encrypted_filename)
+        return send_file(encrypted_filepath, as_attachment=True, download_name=encrypted_filename)
     except Exception as e:
         flash(f"Ошибка обработки файла: {str(e)}")
         return redirect(url_for('index'))
